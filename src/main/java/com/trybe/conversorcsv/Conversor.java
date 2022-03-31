@@ -67,7 +67,6 @@ public class Conversor {
               MaskFormatter maskCpf = new MaskFormatter("###.###.###-##");
               JFormattedTextField cpfFormatado = new JFormattedTextField(maskCpf);
               cpfFormatado.setText(cpf);
-              System.out.println(cpfFormatado.getText());
 
               String linhaConvertida =
                   nome + "," + data + "," + email + "," + cpfFormatado.getText();
@@ -81,7 +80,6 @@ public class Conversor {
           bufferedEscritor.flush();
           bufferedEscritor.close();
           escritor.close();
-          // }
         }
       }
     } catch (Exception e) {
@@ -89,3 +87,12 @@ public class Conversor {
     }
   }
 }
+
+// REFERENCIES:
+// https://pt.stackoverflow.com/questions/320980/pegar-cada-linha-de-um-arquivo-csv?newreg=e576788a4d6441c397f2a98bd726523a
+// https://www.guj.com.br/t/ler-csv-delimitar-e-atualizar-parte-da-linha-do-csv/85291
+// https://www.guj.com.br/t/formatar-string-com-mascara-de-cnpj/353602
+// https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/javax/swing/text/MaskFormatter.html
+// https://www.tutorialspoint.com/swingexamples/creating_masked_textfield.htm
+// https://www.demo2s.com/java/java-maskformatter-tutorial-with-examples.html
+// https://www.tutorialspoint.com/get-the-index-of-a-particular-element-in-an-arraylist-in-java#:~:text=The%20index%20of%20a%20particular%20element%20in%20an%20ArrayList%20can,indexOf().
