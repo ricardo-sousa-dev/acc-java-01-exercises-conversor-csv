@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.JFormattedTextField;
+import javax.swing.text.MaskFormatter;
 
 public class Conversor {
 
@@ -54,31 +56,36 @@ public class Conversor {
           BufferedWriter bufferedEscritor = null;
           escritor = new FileWriter(saida);
           bufferedEscritor = new BufferedWriter(escritor);
-          for (String linhaConvertida : linhas) {
-            bufferedEscritor.write(linhaConvertida);
-            bufferedEscritor.newLine();
+
+          for (String linhaArray : linhas) {
+            if (linhas.indexOf(linhaArray) != 0) {
+              String nome = linhaArray.split(",")[0].toUpperCase();
+              String data = linhaArray.split(",")[1].replace("/", "-");
+              String email = linhaArray.split(",")[2].toLowerCase();
+
+              String cpf = linhaArray.split(",")[3];
+              MaskFormatter maskCpf = new MaskFormatter("###.###.###-##");
+              JFormattedTextField cpfFormatado = new JFormattedTextField(maskCpf);
+              cpfFormatado.setText(cpf);
+              System.out.println(cpfFormatado.getText());
+
+              String linhaConvertida =
+                  nome + "," + data + "," + email + "," + cpfFormatado.getText();
+              bufferedEscritor.write(linhaConvertida);
+              bufferedEscritor.newLine();
+            } else {
+              bufferedEscritor.write(linhaArray);
+              bufferedEscritor.newLine();
+            }
           }
           bufferedEscritor.flush();
           bufferedEscritor.close();
           escritor.close();
+          // }
         }
       }
     } catch (Exception e) {
       System.out.println("Erro: " + e.getMessage());
     }
-
-    // try {
-    // escritor = new FileWriter(pastaDeEntradas);
-    // bufferedEscritor = new BufferedWriter(escritor); // Objeto com o conteudo
-    // escrito em um buffer
-    // bufferedEscritor.write(senha); // Insere o contéudo que será escrito ao
-    // buffer
-    // bufferedEscritor.flush(); // Obtem o conteudo do buffer e escreve no arquivo
-
-    // } catch (IOException e) {
-    // e.printStackTrace();
-    // } finally {
-    // this.fecharObjetos(escritor, bufferedEscritor);
-    // }
   }
 }
