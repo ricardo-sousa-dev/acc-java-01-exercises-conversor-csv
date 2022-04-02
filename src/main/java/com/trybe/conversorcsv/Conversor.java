@@ -36,14 +36,21 @@ public class Conversor {
    *     arquivos de saída.
    */
   public void converterPasta(File pastaDeEntradas, File pastaDeSaidas) throws IOException {
+    // cria pastaDeSaidas;
+    if (!pastaDeSaidas.exists()) {
+      pastaDeSaidas.mkdir();
+    }
 
     try {
-      for (File arquivo : pastaDeEntradas.listFiles()) {
+      for (File arquivo :
+          pastaDeEntradas.listFiles()) { // lista todos os arquivos na pasta de entrada
         if (arquivo.getName().endsWith(".csv")) {
+
           FileReader leitor = new FileReader(arquivo);
           BufferedReader bufferedLeitor = new BufferedReader(leitor);
           String linha = bufferedLeitor.readLine();
           ArrayList<String> linhas = new ArrayList<String>();
+
           while (linha != null) {
             linhas.add(linha);
             linha = bufferedLeitor.readLine();
@@ -60,7 +67,11 @@ public class Conversor {
           for (String linhaArray : linhas) {
             if (linhas.indexOf(linhaArray) != 0) {
               String nome = linhaArray.split(",")[0].toUpperCase();
-              String data = linhaArray.split(",")[1].replace("/", "-");
+
+              String data = linhaArray.split(",")[1];
+              String dataFormat =
+                  data.substring(6) + "-" + data.substring(3, 5) + "-" + data.substring(0, 2);
+
               String email = linhaArray.split(",")[2].toLowerCase();
 
               String cpf = linhaArray.split(",")[3];
@@ -69,7 +80,7 @@ public class Conversor {
               cpfFormatado.setText(cpf);
 
               String linhaConvertida =
-                  nome + "," + data + "," + email + "," + cpfFormatado.getText();
+                  nome + "," + dataFormat + "," + email + "," + cpfFormatado.getText();
               bufferedEscritor.write(linhaConvertida);
               bufferedEscritor.newLine();
             } else {
