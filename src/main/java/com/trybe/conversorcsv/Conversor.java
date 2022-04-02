@@ -46,55 +46,61 @@ public class Conversor {
           pastaDeEntradas.listFiles()) { // lista todos os arquivos na pasta de entrada
         if (arquivo.getName().endsWith(".csv")) {
 
-          FileReader leitor = new FileReader(arquivo);
-          BufferedReader bufferedLeitor = new BufferedReader(leitor);
-          String linha = bufferedLeitor.readLine();
-          ArrayList<String> linhas = new ArrayList<String>();
+          FileReader leitor = new FileReader(arquivo); // cria leitor do arquivo
+          BufferedReader bufferedLeitor = new BufferedReader(leitor); // cria buffer para leitor
+          String linha = bufferedLeitor.readLine(); // lê a linha do arquivo
+          ArrayList<String> linhas = new ArrayList<String>(); // cria lista de linhas
 
-          while (linha != null) {
-            linhas.add(linha);
-            linha = bufferedLeitor.readLine();
+          while (linha != null) { // enquanto houver linhas no arquivo
+            linhas.add(linha); // adiciona linha a lista
+            linha = bufferedLeitor.readLine(); // lê a linha do arquivo
           }
-          bufferedLeitor.close();
-          leitor.close();
+          bufferedLeitor.close(); // fecha o buffer
+          leitor.close(); // fecha o leitor
 
-          File saida = new File(pastaDeSaidas, arquivo.getName());
-          FileWriter escritor = null;
-          BufferedWriter bufferedEscritor = null;
-          escritor = new FileWriter(saida);
-          bufferedEscritor = new BufferedWriter(escritor);
+          File saida = new File(pastaDeSaidas, arquivo.getName()); // cria arquivo de saída
+          FileWriter escritor = null; // cria escritor do arquivo
+          BufferedWriter bufferedEscritor = null; // cria buffer para escritor
+          escritor = new FileWriter(saida); // cria escritor do arquivo
+          bufferedEscritor = new BufferedWriter(escritor); // cria buffer para escritor
 
-          for (String linhaArray : linhas) {
-            if (linhas.indexOf(linhaArray) != 0) {
-              String nome = linhaArray.split(",")[0].toUpperCase();
+          for (String linhaArray : linhas) { // para cada linha do arquivo
+            if (linhas.indexOf(linhaArray) != 0) { // se não for a primeira linha (cabeçalho)
+              String nome = linhaArray.split(",")[0].toUpperCase(); // pega o nome
 
-              String data = linhaArray.split(",")[1];
+              String data = linhaArray.split(",")[1]; // pega a data
               String dataFormat =
-                  data.substring(6) + "-" + data.substring(3, 5) + "-" + data.substring(0, 2);
+                  data.substring(6)
+                      + "-"
+                      + data.substring(3, 5)
+                      + "-"
+                      + data.substring(0, 2); // formata a data
 
-              String email = linhaArray.split(",")[2].toLowerCase();
+              String email = linhaArray.split(",")[2].toLowerCase(); // pega o email
 
-              String cpf = linhaArray.split(",")[3];
-              MaskFormatter maskCpf = new MaskFormatter("###.###.###-##");
-              JFormattedTextField cpfFormatado = new JFormattedTextField(maskCpf);
-              cpfFormatado.setText(cpf);
+              String cpf = linhaArray.split(",")[3]; // pega o cpf
+              MaskFormatter maskCpf = new MaskFormatter("###.###.###-##"); // formata o cpf
+              JFormattedTextField cpfFormatado =
+                  new JFormattedTextField(maskCpf); // cria um campo de texto formatado
+              cpfFormatado.setText(cpf); // seta o cpf formatado
 
               String linhaConvertida =
-                  nome + "," + dataFormat + "," + email + "," + cpfFormatado.getText();
-              bufferedEscritor.write(linhaConvertida);
-              bufferedEscritor.newLine();
+                  nome + "," + dataFormat + "," + email + "," + cpfFormatado.getText(); // formata
+              // a linha
+              bufferedEscritor.write(linhaConvertida); // escreve a linha no arquivo
+              bufferedEscritor.newLine(); // pula uma linha
             } else {
-              bufferedEscritor.write(linhaArray);
-              bufferedEscritor.newLine();
+              bufferedEscritor.write(linhaArray); // escreve a linha no arquivo
+              bufferedEscritor.newLine(); // pula uma linha
             }
           }
-          bufferedEscritor.flush();
-          bufferedEscritor.close();
-          escritor.close();
+          bufferedEscritor.flush(); // grava o arquivo
+          bufferedEscritor.close(); // fecha o buffer
+          escritor.close(); // fecha o escritor
         }
       }
-    } catch (Exception e) {
-      System.out.println("Erro: " + e.getMessage());
+    } catch (Exception e) { // caso ocorra algum erro
+      System.out.println("Erro: " + e.getMessage()); // imprime o erro
     }
   }
 }
